@@ -9,13 +9,11 @@ class Hostel {
 
         return hostelTable.find()
         .then( (hostels) => {
-            var returnData = {};
+            var returnData = [];
             hostels.map((hostel) => {
-                returnData.id = hostel.id,
-                returnData.name = hostel.hostelName,
-                returnData.place = hostel.hostelPlace
+                returnData.push({ id:hostel.id, name:hostel.hostelName, place:hostel.hostelPlace});
             })
-            return returnData;
+            return {status : 'success', hostels : returnData};
         })
     };
 
@@ -67,11 +65,9 @@ class Hostel {
             if( hostels.length === 0 ) {
                 return {status : 'fail'};
             } else {
-                var returnData = {};
+                var returnData = [];
                 hostels.map((hostel) => {
-                    returnData.id = hostel.id,
-                    returnData.name = hostel.hostelName,
-                    returnData.place = hostel.hostelPlace
+                    returnData.push({ id:hostel.id, name:hostel.hostelName, place:hostel.hostelPlace});
                 });
                 return {status : 'success', hostels : returnData};
             }

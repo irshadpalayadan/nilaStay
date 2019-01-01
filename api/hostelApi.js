@@ -5,8 +5,8 @@ const hostel = new (require('../service/hostel/hostel'))();
 hostelsRouter.get('/', (req, res) => {
 
     hostel.getAllHostel()
-    .then( (hostels) => {
-        res.status(200).json(hostels);
+    .then( ( ret ) => {
+        res.status(200).json( ret );
     });
 });
 
