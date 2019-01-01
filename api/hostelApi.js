@@ -12,22 +12,16 @@ hostelsRouter.get('/', (req, res) => {
 
 hostelRouter.get('/:hostelName', (req, res) => {
 
-    hostel.getHostelbyNameLike(hostelName)
-    .then((hostels) => {
-        return res.status(200).json(hostels);
+    hostel.getHostelbyNameLike(req.params.hostelName)
+    .then(( ret ) => {
+        res.status(200).json(ret);
     })
 })
 .post('/', (req, res) => {
     
     hostel.createHostel(req.body)
     .then( ret => {
-        if( ret.status === 'success' ) {
-            res.status(200).json({'status' : 'success', 'hostelId' : ret.id});
-        } else if(ret.status === 'fail') {
-            res.status(200).json({'status' : 'fail'});
-        } else {
-            res.status(400);
-        }
+        res.status(200).json(ret);
     })
 })
 
