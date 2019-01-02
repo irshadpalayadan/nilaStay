@@ -25,10 +25,22 @@ hostelRouter.get('/:hostelName', (req, res) => {
     })
 })
 .delete('/:hostelId', (req,res) => {
+
+    // there is twotype of deletion
+    // soft deletion and hard deletion
     hostel.deleteHostelById(req.params.hostelId)
     .then( (ret) => {
         res.status(200).json(ret);
-    })
+    });
+})
+.delete('/soft/:hostelId', (req,res) => {
+
+    // there is twotype of deletion
+    // soft deletion and hard deletion
+    hostel.softDeleteHostelById(req.params.hostelId)
+    .then( (ret) => {
+        res.status(200).json(ret);
+    });
 });
 
 
