@@ -73,6 +73,25 @@ class Hostel {
             }
         })
     }
+
+
+
+    /**
+     * 
+     * @param {*} hostelId 
+     */
+
+    deleteHostelById( hostelId ) {
+
+        return hostelTable.findByIdAndRemove(hostelId)
+        .then( ( deletedHostel ) => {
+            if( deletedHostel == null ) {
+                return {status : 'fail'};
+            } else {
+                return {status : 'success'};
+            }
+        })
+    }
 }
 
 module.exports = Hostel;

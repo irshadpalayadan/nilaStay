@@ -24,6 +24,12 @@ hostelRouter.get('/:hostelName', (req, res) => {
         res.status(200).json(ret);
     })
 })
+.delete('/:hostelId', (req,res) => {
+    hostel.deleteHostelById(req.params.hostelId)
+    .then( (ret) => {
+        res.status(200).json(ret);
+    })
+});
 
 
 module.exports = {  hostels : hostelsRouter, hostel : hostelRouter };
