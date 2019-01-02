@@ -11,6 +11,7 @@ var hostelSchema = new schema({
     ownerMob   : { type : String},
     ownerPlace : { type : String},
     ownerAddr  : { type : String},
+    active     : { type : Boolean, default : true},
     leaseStartYear  : { type : String},
     leaseStartMonth : { type : String},
     leaseEndYear  : { type : String},

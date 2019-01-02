@@ -7,7 +7,7 @@ class Hostel {
 
     getAllHostel() {
 
-        return hostelTable.find()
+        return hostelTable.find({active : true})
         .then( (hostels) => {
             var returnData = [];
             hostels.map((hostel) => {
@@ -60,7 +60,7 @@ class Hostel {
      * @param {*} hostelName 
      */
     getHostelbyNameLike( hostelName ) {
-        return hostelTable.find({ hostelName : { $regex: new RegExp(hostelName, 'i') }})
+        return hostelTable.find({ hostelName : { $regex: new RegExp(hostelName, 'i') }, active : true})
         .then((hostels) => {
             if( hostels.length === 0 ) {
                 return {status : 'fail'};
@@ -77,13 +77,13 @@ class Hostel {
 
 
     /**
+     * used to delete hostel permenantly
      * 
      * @param {*} hostelId 
      */
 
     deleteHostelById( hostelId ) {
 
-        
         return hostelTable.findByIdAndRemove(hostelId)
         .then( ( deletedHostel ) => {
             if( deletedHostel == null ) {
@@ -91,7 +91,26 @@ class Hostel {
             } else {
                 return {status : 'success'};
             }
-        })
+        });
+    }
+
+
+
+    /**
+     * delete the hostel temporarly
+     * set value of the active to false
+     * @param {*} hostelId 
+     */
+    softDeleteHostelById( hostelId ) {
+        
+        return hostelTable.findByIdAndUpdate( hostelId, {active : false}, {new : true})
+        .then( ( deletedHostel ) => {
+            if( deletedHostel == null ) {
+                return {status : 'fail'};
+            } else if( deletedHostel.active === false ) {
+                return {status : 'success'};
+            }
+        });
     }
 }
 
