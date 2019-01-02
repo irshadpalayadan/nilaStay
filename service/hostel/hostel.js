@@ -83,6 +83,7 @@ class Hostel {
 
     deleteHostelById( hostelId ) {
 
+        
         return hostelTable.findByIdAndRemove(hostelId)
         .then( ( deletedHostel ) => {
             if( deletedHostel == null ) {
