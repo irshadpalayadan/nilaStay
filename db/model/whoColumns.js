@@ -2,11 +2,21 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 
 var whoColumns = {
-    createdBy       : String,
-    createdDate     : Date,
+    createdBy       : {type : String},
+    createdDate     : {type : String},
     // TODO: need to update when user login enabled
-    lastUpdatedBy   : {type : String, default : 'default user'},
-    lastUpdateDate  : {type : String, default : (new Date()).toUTCString() },
+    lastUpdatedBy   : {type : String},
+    lastUpdatedDate  : {type : String},
 };
 
-module.exports = whoColumns;
+var whoColumnsUpdate = ( _this) => {
+    if(_this.isNew) {
+        _this.whoColumn.createdBy = _this.whoColumn.lastUpdatedBy.valueOf();
+        _this.whoColumn.lastUpdatedBy = undefined;
+        _this.whoColumn.createdDate = (new Date()).toUTCString();
+    } else {
+        _this.whoColumn.lastUpdatedDate = (new Date()).toUTCString();        
+    }
+};
+
+module.exports = {whoColumns:whoColumns, whoColumnsUpdate:whoColumnsUpdate};

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var whoColumn = require('./whoColumns');
+var whoColumn = require('./whoColumns').whoColumns;
+const whoColumnUpdate = require('./whoColumns').whoColumnsUpdate;
 
 var hostelSchema = new schema({
     hostelName : { type : String, required : true},
@@ -18,6 +19,15 @@ var hostelSchema = new schema({
     leaseEndMonth : { type : String},
     whoColumn
 });
+
+
+hostelSchema.pre( 'save', function(next) {
+
+    // handlig the who columns
+    whoColumnUpdate(this);
+    next();
+})
+
 
 
 var hostelModel = mongoose.model('hostel', hostelSchema);

@@ -39,9 +39,10 @@ class Hostel {
             leaseStartMonth : params.startMonth,
             leaseEndYear : params.endYear,
             leaseEndMonth : params.endMonth,
-
-
         });
+
+        // TODO :  need to update with session UserID  when session is implemented
+        hostel.whoColumn.lastUpdatedBy = 'irshad';
 
         return hostel.save()
         .then(( hostelObj ) => {
