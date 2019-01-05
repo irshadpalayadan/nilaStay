@@ -1,10 +1,12 @@
 const hostelTable = require('../../db/model/hostelModel');
 
-/**
- * @returns All hotel details
- */
+
 class Hostel {
 
+
+    /**
+     * @returns All hotel details
+     */
     getAllHostel() {
 
         return hostelTable.find({active : true})
@@ -110,6 +112,24 @@ class Hostel {
                 return {status : 'fail'};
             } else if( deletedHostel.active === false ) {
                 return {status : 'success'};
+            }
+        });
+    }
+
+
+    /**
+     * 
+     * @param {*} hostelId 
+     * 
+     * @returns true if hostel exist and active otherwise return false
+     */
+    isHostelActive( hostelId ) {
+        return hostelTable.findById(hostelId)
+        .then( (hostel) => {
+            if( hostel !== null && hostel.active === true ) {
+                return true;
+            } else {
+                return false;
             }
         });
     }
