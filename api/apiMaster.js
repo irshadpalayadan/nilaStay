@@ -9,7 +9,9 @@ api.use('/hostel', hostelApi.hostel);
 const floorApi = require('./floorApi');
 api.use('/floor', floorApi);
 
-
+//Rout to the room apis
+const roomApi = require('./roomApi');
+api.use('/room', roomApi);
 
 
 
