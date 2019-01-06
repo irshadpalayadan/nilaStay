@@ -84,7 +84,7 @@ class Floor {
 
 
     /**
-     * delete the hostel temporarly
+     * delete the floor temporarly
      * set value of the active to false
      * @param {*} hostelId 
      */
@@ -99,6 +99,25 @@ class Floor {
                 // remove all active room to non active
                 // do not wait for the response
                 return {status : 'success'};
+            }
+        });
+    }
+
+
+
+    /**
+     * 
+     * @param {*} floorId 
+     * 
+     * @returns true if floor exist and active otherwise return false
+     */
+    isFloorActive( floorId ) {
+        return floorTable.findById(floorId)
+        .then( (floor) => {
+            if( floor !== null && floor.active === true ) {
+                return true;
+            } else {
+                return false;
             }
         });
     }
