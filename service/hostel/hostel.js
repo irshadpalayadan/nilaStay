@@ -1,13 +1,15 @@
 const hostelTable = require('../../db/model/hostelModel');
 
-/**
- * @returns All hotel details
- */
+
 class Hostel {
 
+
+    /**
+     * @returns All hotel details
+     */
     getAllHostel() {
 
-        return hostelTable.find()
+        return hostelTable.find({active : true})
         .then( (hostels) => {
             var returnData = [];
             hostels.map((hostel) => {
@@ -39,9 +41,10 @@ class Hostel {
             leaseStartMonth : params.startMonth,
             leaseEndYear : params.endYear,
             leaseEndMonth : params.endMonth,
-
-
         });
+
+        // TODO :  need to update with session UserID  when session is implemented
+        hostel.whoColumn.lastUpdatedBy = 'irshad';
 
         return hostel.save()
         .then(( hostelObj ) => {
@@ -60,7 +63,7 @@ class Hostel {
      * @param {*} hostelName 
      */
     getHostelbyNameLike( hostelName ) {
-        return hostelTable.find({ hostelName : { $regex: new RegExp(hostelName, 'i') }})
+        return hostelTable.find({ hostelName : { $regex: new RegExp(hostelName, 'i') }, active : true})
         .then((hostels) => {
             if( hostels.length === 0 ) {
                 return {status : 'fail'};
@@ -77,6 +80,7 @@ class Hostel {
 
 
     /**
+     * used to delete hostel permenantly
      * 
      * @param {*} hostelId 
      */
@@ -90,7 +94,44 @@ class Hostel {
             } else {
                 return {status : 'success'};
             }
-        })
+        });
+    }
+
+
+
+    /**
+     * delete the hostel temporarly
+     * set value of the active to false
+     * @param {*} hostelId 
+     */
+    softDeleteHostelById( hostelId ) {
+        
+        return hostelTable.findByIdAndUpdate( hostelId, {active : false}, {new : true})
+        .then( ( deletedHostel ) => {
+            if( deletedHostel == null ) {
+                return {status : 'fail'};
+            } else if( deletedHostel.active === false ) {
+                return {status : 'success'};
+            }
+        });
+    }
+
+
+    /**
+     * 
+     * @param {*} hostelId 
+     * 
+     * @returns true if hostel exist and active otherwise return false
+     */
+    isHostelActive( hostelId ) {
+        return hostelTable.findById(hostelId)
+        .then( (hostel) => {
+            if( hostel !== null && hostel.active === true ) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 }
 
